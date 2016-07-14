@@ -27,6 +27,13 @@ def get_client(ip):
     return CLIENTS[ip]
 
 def read_register_bytes(client, address):
+    """Read two 16-bit values starting at the given address.
+    
+    The modbus specification says that at an address is actually one less than
+    its label (hence the address -= 1).
+    Each register holds a 16-bit (2-byte) value, and for our purposes the data
+    are stored in two adjacent registers.
+    """
     address -= 1
     results = client.read_holding_registers(address=address, count=2, unit=1)
     return results.registers
