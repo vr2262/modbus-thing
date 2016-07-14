@@ -1,4 +1,8 @@
+import logging
+
 import pymodbus.client.sync
+
+
 OUTLETS = {
     1: {'coil': 300, 'amps': 202, 'watts': 222, 'kWh': 242},
     2: {'coil': 301, 'amps': 204, 'watts': 224, 'kWh': 244},
@@ -25,6 +29,11 @@ def get_client(ip):
     if ip not in CLIENTS:
         CLIENTS[ip] = pymodbus.client.sync.ModbusTcpClient(ip)
     return CLIENTS[ip]
+
+def set_log_level(level=logging.DEBUG):
+    logging.basicConfig()
+    logging.getLogger().setLevel(level)
+
 
 def read_register_bytes(client, address):
     """Read two 16-bit values starting at the given address.
